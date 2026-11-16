@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#071522" />
+    <title>Sentinel Grid | Environmental Hazard Monitoring</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand"><span class="brand-mark">⌁</span><div><strong>ElectroVision</strong><small>GRID / OPS</small></div></div>
+        <div class="side-label">CONTROL ROOM</div>
+        <nav>
+          <a class="nav-item active" href="#overview"><span>◉</span> Overview</a>
+          <a class="nav-item" href="#nodes"><span>⌁</span> Sensor nodes <b>03</b></a>
+          <a class="nav-item" href="#thresholds"><span>⌗</span> Threshold rules</a>
+          <a class="nav-item" href="#activity"><span>≋</span> Event log <b id="eventCount">04</b></a>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="connection-box"><span class="pulse-dot"></span><div><small>NETWORK STATUS</small><strong id="networkStatus">Demo stream active</strong></div></div>
+          <button class="outline-button" id="serialButton">Connect ESP32 <span>↗</span></button>
+          <p class="serial-note" id="serialNote">Web Serial works in Chrome or Edge over USB.</p>
+        </div>
+      </aside>
+
+      <main class="main-content" id="overview">
+        <header class="topbar">
+          <div><p class="eyebrow">NATIONAL ENVIRONMENTAL EARLY WARNING SYSTEM</p><h1>Operations overview</h1></div>
+          <div class="top-actions"><div class="last-sync"><span class="live-dot"></span><span>LIVE</span><strong id="lastUpdated">--:--:--</strong></div><button class="icon-button" id="pauseButton" title="Pause demo stream">Ⅱ</button></div>
+        </header>
+
+        <section class="hero-status">
+          <div><div class="status-kicker"><span class="status-orb" id="overallOrb"></span><span id="overallLabel">SYSTEM WATCH</span></div><h2 id="overallTitle">Monitoring 3 active nodes</h2><p id="overallSummary">All channels are reporting. Threshold rules are evaluating incoming readings.</p></div>
+          <div class="hero-meta"><span>LAST DECISION</span><strong id="decisionTime">--:--</strong><small>Rule engine / local</small></div>
+        </section>
+
+        <section class="metric-grid" id="nodes">
+          <article class="node-card forest" data-node="forest"><div class="card-head"><div><span class="node-id">NODE 01 / FOREST FIRE</span><h3>Forest perimeter</h3></div><span class="state-pill normal" data-state-pill>● NORMAL</span></div><div class="reading-row"><div class="big-reading"><strong data-reading="smoke">18</strong><span> AQI / smoke index</span></div><div class="trend up">↗ <span data-trend="smoke">+2%</span></div></div><div class="signal-bar"><div data-bar="smoke"></div></div><div class="mini-readings"><span><b data-reading="forestTemp">31.4</b> °C<br><small>TEMPERATURE</small></span><span><b data-reading="forestBattery">87</b>%<br><small>BATTERY</small></span><span><b>−71</b> dBm<br><small>RSSI</small></span></div><div class="card-footer"><span><i class="sensor-dot"></i> Smoke + temperature</span><span>Updated <b data-updated="forest">now</b></span></div></article>
+          <article class="node-card air" data-node="air"><div class="card-head"><div><span class="node-id">NODE 02 / AIR + WEATHER</span><h3>Urban east sector</h3></div><span class="state-pill normal" data-state-pill>● NORMAL</span></div><div class="reading-row"><div class="big-reading"><strong data-reading="pm25">24</strong><span> μg/m³ PM2.5</span></div><div class="trend neutral">→ <span data-trend="pm25">stable</span></div></div><div class="signal-bar"><div data-bar="pm25"></div></div><div class="mini-readings"><span><b data-reading="pm10">42</b> μg/m³<br><small>PM10</small></span><span><b data-reading="pressure">1008</b> hPa<br><small>PRESSURE</small></span><span><b>−68</b> dBm<br><small>RSSI</small></span></div><div class="card-footer"><span><i class="sensor-dot"></i> PM2.5 + pressure</span><span>Updated <b data-updated="air">now</b></span></div></article>
+          <article class="node-card flood" data-node="flood"><div class="card-head"><div><span class="node-id">NODE 03 / FLOOD</span><h3>River watch station</h3></div><span class="state-pill normal" data-state-pill>● NORMAL</span></div><div class="reading-row"><div class="big-reading"><strong data-reading="waterDistance">30</strong><span> cm sensor distance</span></div><div class="trend up">↗ <span data-trend="water">rising risk</span></div></div><div class="signal-bar"><div data-bar="water"></div></div><div class="mini-readings"><span><b data-reading="rain">4095</b> ADC<br><small>RAIN SENSOR</small></span><span><b data-reading="floodBattery">92</b>%<br><small>BATTERY</small></span><span><b>−64</b> dBm<br><small>RSSI</small></span></div><div class="card-footer"><span><i class="sensor-dot"></i> Ultrasonic + rain</span><span>Updated <b data-updated="flood">now</b></span></div></article>
+        </section>
+
+        <section class="lower-grid">
+          <article class="panel map-panel"><div class="panel-heading"><div><span class="section-label">NETWORK MAP</span><h2>Field deployment</h2></div><span class="map-legend"><i class="legend-node"></i> node <i class="legend-gateway"></i> gateway</span></div><div class="map"><div class="map-lines"></div><div class="map-label label-forest">FOREST BELT</div><div class="map-label label-city">URBAN EAST</div><div class="map-label label-river">RIVER BASIN</div><div class="map-node node-a"><span>01</span></div><div class="map-node node-b"><span>02</span></div><div class="map-node node-c"><span>03</span></div><div class="gateway"><span>⌁</span><small>GATEWAY / HQ</small></div><div class="map-compass">N<br><span>+</span></div></div><div class="map-footer"><span><i class="online-dot"></i> 3 nodes online</span><span>LoRa mesh / 4.8 km radius</span><span>Local gateway storage enabled</span></div></article>
+          <article class="panel activity-panel" id="activity"><div class="panel-heading"><div><span class="section-label">DECISION LOG</span><h2>Recent activity</h2></div><button class="text-button" id="clearLog">Clear</button></div><div class="activity-list" id="activityList"><div class="activity-item"><span class="activity-icon green">✓</span><div><strong>Routine telemetry received</strong><small>All nodes · 10:42:08</small></div><b class="log-state normal-text">NORMAL</b></div><div class="activity-item"><span class="activity-icon green">✓</span><div><strong>Gateway heartbeat confirmed</strong><small>HQ gateway · 10:41:52</small></div><b class="log-state normal-text">ONLINE</b></div><div class="activity-item"><span class="activity-icon yellow">!</span><div><strong>Rainfall trend increasing</strong><small>Node 03 · 10:40:17</small></div><b class="log-state watch-text">WATCH</b></div><div class="activity-item"><span class="activity-icon green">✓</span><div><strong>Sensor calibration check passed</strong><small>Node 01 · 10:38:44</small></div><b class="log-state normal-text">NORMAL</b></div></div></article>
+        </section>
+
+        <section class="threshold-section" id="thresholds"><div class="section-intro"><div><span class="section-label">RULE ENGINE</span><h2>Threshold rules</h2></div><p>Rules match the supplied ESP32 firmware. Ultrasonic distance decreases as flood risk increases.</p></div><div class="threshold-grid"><div class="threshold-row"><span class="rule-symbol forest-symbol">01</span><div><strong>Forest fire risk</strong><small>MQ smoke ADC value</small></div><label>Watch <input type="number" value="1800" data-threshold="smokeWatch" /> <em>ADC</em></label><label>Critical <input type="number" value="2500" data-threshold="smokeCritical" /> <em>ADC</em></label></div><div class="threshold-row"><span class="rule-symbol air-symbol">02</span><div><strong>Air quality risk</strong><small>PM2.5 concentration</small></div><label>Watch <input type="number" value="60" data-threshold="pmWatch" /> <em>μg/m³</em></label><label>Critical <input type="number" value="150" data-threshold="pmCritical" /> <em>μg/m³</em></label></div><div class="threshold-row"><span class="rule-symbol flood-symbol">03</span><div><strong>Flood risk</strong><small>Distance / rain ADC</small></div><label>Warning <input type="number" value="15" data-threshold="floodWarningDistance" /> <em>cm</em></label><label>Danger <input type="number" value="8" data-threshold="floodDangerDistance" /> <em>cm</em></label><label>Rain warning <input type="number" value="2500" data-threshold="rainWarning" /> <em>ADC</em></label><label>Rain danger <input type="number" value="1500" data-threshold="rainDanger" /> <em>ADC</em></label></div></div></section>
+        <footer><span>SENTINEL GRID / RULE-BASED EARLY WARNING</span><span>Prototype interface · Configure thresholds to match field calibration</span></footer>
+      </main>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
